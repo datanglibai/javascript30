@@ -1,45 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <title>Understanding JavaScript's Capture</title>
+    <meta charset="UTF-8">
+    <title>Understanding JavaScript's Capture</title>
 </head>
+
 <body class="bod">
 
-  <div class="one">
-    <div class="two">
-      <div class="three">
-      </div>
+    <div class="one">
+        <div class="two">
+            <div class="three">
+            </div>
+        </div>
     </div>
-  </div>
 
-<style>
-  html {
-    box-sizing: border-box;
-  }
-  *, *:before, *:after { box-sizing: inherit; }
+    <style>
+        html {
+            box-sizing: border-box;
+        }
+        
+        *,
+        *:before,
+        *:after {
+            box-sizing: inherit;
+        }
+        
+        div {
+            width: 100%;
+            padding: 100px;
+        }
+        
+        .one {
+            background: thistle;
+        }
+        
+        .two {
+            background: mistyrose;
+        }
+        
+        .three {
+            background: coral;
+        }
+    </style>
 
-  div {
-    width:100%;
-    padding:100px;
-  }
+    <button></button>
+    <script>
+        const divs = document.querySelectorAll('div');
 
-  .one {
-    background: thistle;
-  }
+        function logText(e) {
+            console.log(this.classList.value);
+            e.stopPropagation(); //stop bubble
+            //console.log(this);
+        }
 
-  .two {
-    background:mistyrose;
-  }
-
-  .three {
-    background:coral;
-  }
-</style>
-
-<button></button>
-<script>
-
-</script>
+        divs.forEach(div => {
+            div.addEventListener('click', logText, {
+                capture: false,
+                once: true // equals to div.removeEventListener after one response.
+            });
+        });
+        // {capture: true} make the event not bubble way, but capture and response, 
+        // e.g. when click div three, default way ((default is false means bubble) will be three clicked, tweo clicked and one clicked...
+        // and true means, when click div three, capture body click, click call back calledm capture one div click, response to it....
+    </script>
 </body>
+
 </html>
